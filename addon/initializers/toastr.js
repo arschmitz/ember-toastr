@@ -1,6 +1,6 @@
 export function initialize(application, options) {
   var injectAs = options.injectAs;
-  if (!process.env.EMBER_CLI_FASTBOOT) {
+  if (window && window.toastr) {
     window.toastr.options = options.toastrOptions;
   }
 
