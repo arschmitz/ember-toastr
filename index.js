@@ -4,9 +4,21 @@
 var Funnel = require('broccoli-funnel');
 var MergeTrees = require('broccoli-merge-trees');
 var path = require('path');
+var fastbootTransform = require('fastboot-transform');
 
 module.exports = {
   name: 'ember-toastr',
+
+  options: {
+    nodeAssets: {
+      toastr: {
+        vendor: ['toastr.js', 'build/toastr.css'],
+        processTree(input) {
+          return fastbootTransform(input);
+        }
+      }
+    }
+  },
 
   included: function() {
     this._super.included.apply(this, arguments);
@@ -33,7 +45,7 @@ module.exports = {
 
     return new MergeTrees(trees, { overwrite: true });
   },
-  
+
   _ensureThisImport: function() {
     if (!this.import) {
       this._findHost = function findHostShim() {
