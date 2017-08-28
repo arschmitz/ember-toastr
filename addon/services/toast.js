@@ -4,6 +4,10 @@ const { run } = Ember;
 
 let proxyGenerator = function (name) {
   return function (msg = '', title = '', options = {}) {
+    if (!window.toastr) {
+      return
+    }
+
     let toasts = this.get('toasts');
     let toast = window.toastr[name](msg.toString(), title.toString(), options);
 
@@ -23,6 +27,11 @@ export default Ember.Service.extend({
 
   init() {
     this._super(...arguments);
+
+    if (!window.toastr) {
+      return
+    }
+
     this.toasts = Ember.A([]);
 
     // Auto remove toasts when hidden
@@ -34,6 +43,9 @@ export default Ember.Service.extend({
   },
 
   clear(toastElement) {
+    if (!window.toastr) {
+      return
+    }
     window.toastr.clear(toastElement);
     if (toastElement) {
       this.get('toasts').removeObject(toastElement);
@@ -48,6 +60,9 @@ export default Ember.Service.extend({
       toastElement.remove();
     } else {
       this.set('toasts', Ember.A([]));
+    }
+    if (!window.toastr) {
+      return
     }
     window.toastr.remove(toastElement);
   },
