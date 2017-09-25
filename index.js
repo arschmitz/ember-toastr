@@ -8,9 +8,11 @@ module.exports = {
   options: {
     nodeAssets: {
       toastr: {
-        vendor: ['toastr.js', 'build/toastr.css'],
-        processTree(input) {
-          return fastbootTransform(input);
+        vendor: {
+          include: ['toastr.js', 'build/toastr.css'],
+          processTree(input) {
+            return fastbootTransform(input);
+          }
         }
       }
     }
